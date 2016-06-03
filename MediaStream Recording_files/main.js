@@ -51,7 +51,7 @@ navigator.getUserMedia = navigator.getUserMedia ||
 var constraints = {
   audio: true,
   video: {width: {exact: 320}, height: {exact: 240}},
-  frameRate: {exact: 15}
+  frameRate: {exact: 30}
 };
 
 navigator.mediaDevices.getUserMedia(
