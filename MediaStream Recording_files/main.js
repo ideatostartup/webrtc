@@ -166,7 +166,7 @@ function download() {
   formData.append('fname', 'test.webm');
   formData.append('data', blob);
   $.ajax({
-    url: 'http://107.170.98.55:3000/upload',
+    url: 'https://107.170.98.55:8443/upload',
     type: 'POST',
     data: formData,
     processData: false,
