@@ -163,8 +163,9 @@ function download() {
   var blob = new Blob(recordedBlobs, {type: 'video/webm'});
   var url = window.URL.createObjectURL(blob);
   var formData = new FormData();
-  formData.append('fname', 'test.webm');
-  formData.append('data', blob);
+//  formData.append('fname', 'test.webm');
+//  formData.append('data', blob);
+  formData.append("blob", blob, "test.webm");
   $.ajax({
     url: 'https://107.170.98.55:8443/upload',
     type: 'POST',
