@@ -28,10 +28,8 @@ var recordedVideo = document.querySelector('video#recorded');
 
 var recordButton = document.querySelector('button#record');
 var playButton = document.querySelector('button#play');
-var downloadButton = document.querySelector('button#download');
 recordButton.onclick = toggleRecording;
 playButton.onclick = play;
-downloadButton.onclick = download;
 
 // window.isSecureContext could be used for Chrome
 var isSecureOrigin = location.protocol === 'https:' ||
@@ -110,7 +108,6 @@ function toggleRecording() {
     stopRecording();
     recordButton.textContent = 'Start Recording';
     playButton.disabled = false;
-    downloadButton.disabled = false;
   }
 }
 
@@ -141,7 +138,6 @@ function startRecording() {
   console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
   recordButton.textContent = 'Stop Recording';
   playButton.disabled = true;
-  downloadButton.disabled = true;
   mediaRecorder.onstop = handleStop;
   mediaRecorder.ondataavailable = handleDataAvailable;
   mediaRecorder.start(10); // collect 10ms of data
@@ -151,7 +147,7 @@ function startRecording() {
 function stopRecording() {
   mediaRecorder.stop();
   console.log('Recorded Blobs: ', recordedBlobs);
-  download();
+  upload();
   recordedVideo.controls = true;
 }
 
@@ -160,7 +156,7 @@ function play() {
   recordedVideo.src = window.URL.createObjectURL(superBuffer);
 }
 
-function download() {
+function upload() {
   var blob = new Blob(recordedBlobs, {type: 'video/webm'});
   var url = window.URL.createObjectURL(blob);
   var formData = new FormData();
@@ -173,7 +169,8 @@ function download() {
     contentType: false,
     success: function(data){
         console.log('upload successful!\n' + data);
-    },
+    }
+/*    ,
     xhr: function() {
       // create an XMLHttpRequest
       var xhr = new XMLHttpRequest();
@@ -201,6 +198,7 @@ function download() {
 
       return xhr;
     }
+*/
   });
 /*
   $.ajax({
