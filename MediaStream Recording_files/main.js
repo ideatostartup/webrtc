@@ -162,14 +162,65 @@ function play() {
 function download() {
   var blob = new Blob(recordedBlobs, {type: 'video/webm'});
   var url = window.URL.createObjectURL(blob);
-  var a = document.createElement('a');
-  a.style.display = 'none';
-  a.href = url;
-  a.download = 'test.webm';
-  document.body.appendChild(a);
-  a.click();
-  setTimeout(function() {
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
-  }, 100);
+  var formData = new FormData();
+  formData.append('fname', 'test.webm');
+  formData.append('data', blob);
+  $.ajax({
+    url: '/upload',
+    type: 'POST',
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function(data){
+        console.log('upload successful!\n' + data);
+    },
+    xhr: function() {
+      // create an XMLHttpRequest
+      var xhr = new XMLHttpRequest();
+
+      // listen to the 'progress' event
+      xhr.upload.addEventListener('progress', function(evt) {
+
+        if (evt.lengthComputable) {
+          // calculate the percentage of upload completed
+          var percentComplete = evt.loaded / evt.total;
+          percentComplete = parseInt(percentComplete * 100);
+
+          // update the Bootstrap progress bar with the new percentage
+          $('.progress-bar').text(percentComplete + '%');
+          $('.progress-bar').width(percentComplete + '%');
+
+          // once the upload reaches 100%, set the progress bar text to done
+          if (percentComplete === 100) {
+            $('.progress-bar').html('Done');
+          }
+
+        }
+
+      }, false);
+
+      return xhr;
+    }
+  });
+/*
+  $.ajax({
+      type: 'POST',
+      url: 'http://107.170.98.55:3000/client',
+      data: fd,
+      processData: false,
+      contentType: false
+  }).done(function(data) {
+       console.log(data);
+       var a = document.createElement('a');
+       a.style.display = 'none';
+       a.href = url;
+       a.download = 'client.webm';
+       document.body.appendChild(a);
+       a.click();
+       setTimeout(function(addEventListener) {
+         document.body.removeChild(a);
+         window.URL.revokeObjectURL(url);
+       }, 100);
+  });
+*/
 }
