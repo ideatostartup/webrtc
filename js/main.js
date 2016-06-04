@@ -24,6 +24,7 @@ var recordedBlobs;
 var sourceBuffer;
 
 var gumVideo = document.querySelector('video#gum');
+var recordedVideo = document.querySelector('video#gum');
 
 var recordButton = document.querySelector('button#record');
 var playButton = document.querySelector('button#play');
@@ -147,12 +148,12 @@ function stopRecording() {
   mediaRecorder.stop();
   console.log('Recorded Blobs: ', recordedBlobs);
   upload();
-  gumVideo.controls = true;
+  recordedVideo.controls = true;
 }
 
 function play() {
   var superBuffer = new Blob(recordedBlobs, {type: 'video/webm'});
-  gumVideo.src = window.URL.createObjectURL(superBuffer);
+  recordedVideo.src = window.URL.createObjectURL(superBuffer);
 }
 
 function upload() {
