@@ -24,7 +24,7 @@ var recordedBlobs;
 var sourceBuffer;
 
 var gumVideo = document.querySelector('video#gum');
-var recordedVideo = document.querySelector('video#gum');
+var recordedVideo = document.querySelector('video#recorded');
 
 var recordButton = document.querySelector('button#record');
 var playButton = document.querySelector('button#play');
